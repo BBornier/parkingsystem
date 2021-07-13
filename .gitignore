@@ -1,0 +1,14 @@
+# Ignore target folder (.class files)
+target/*
+
+# Ignore these files 
+*.class
+.classpath 
+.project
+ 
+# Ignore hidden files
+.* 
+
+# Don't Ignore these files/folders
+!.gitignore
+/target/

@@ -12,8 +12,9 @@ public class DataBaseConfig {
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/prod","root","X8AHNdCXq&n6e&ugRkM+dTN2#H+!uJ!Fa9U85*G3We*7nn4DU*=+Dt4csgF!h?dX!XaMg-8CM5V5MV-pTEG7Q-#-Nns6D?N8bw^Frn+CxR-FjAbzL+Fty6=R%mT26gYXu7rN-$$8BGD&&b?^rm7Tje7HWDW8W=5CYyjY_ZWcDcgzVCymAj^KwgK^FHfb^w2BV96^h8kpsK!T=!eCt5U$Hxc=wTGrS@8yqjm@ngX&WE#QsYBj@26wdwsjLwAp&&@*");
+        // Problème avec le fuseau horaire à la ligne 16. Soucis réglé.
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/prod?serverTimezone=UTC","root","X8AHNdCXq&n6e&ugRkM+dTN2#H+!uJ!Fa9U85*G3We*7nn4DU*=+Dt4csgF!h?dX!XaMg-8CM5V5MV-pTEG7Q-#-Nns6D?N8bw^Frn+CxR-FjAbzL+Fty6=R%mT26gYXu7rN-$$8BGD&&b?^rm7Tje7HWDW8W=5CYyjY_ZWcDcgzVCymAj^KwgK^FHfb^w2BV96^h8kpsK!T=!eCt5U$Hxc=wTGrS@8yqjm@ngX&WE#QsYBj@26wdwsjLwAp&&@*");
+        
     }
 
     public void closeConnection(Connection con){
