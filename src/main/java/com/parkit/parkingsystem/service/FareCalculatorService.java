@@ -2,6 +2,7 @@ package com.parkit.parkingsystem.service;
 
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
+import java.util.Calendar;
 
 public class FareCalculatorService {
 
@@ -9,9 +10,11 @@ public class FareCalculatorService {
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
-
-        int inHour = ticket.getInTime().getHours();
-        int outHour = ticket.getOutTime().getHours();
+        // Méthodes dépréciées. remplacer par Calendar.get ?
+        @SuppressWarnings("deprecation")
+		int inHour = ticket.getInTime().getHours();
+        @SuppressWarnings("deprecation")
+		int outHour = ticket.getOutTime().getHours();
 
         //TODO: Some tests are failing here. Need to check if this logic is correct
         int duration = outHour - inHour;
