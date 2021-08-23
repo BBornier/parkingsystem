@@ -20,6 +20,8 @@ public class TicketDAO {
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
     public boolean saveTicket(Ticket ticket){
+    	//Initialisation des variables remontées dans le bon emplacement. 
+    	//Fermetures mal placées sont placées dans le bloc finally. 
         Connection con = null;
         PreparedStatement ps = null;
         try {
@@ -43,6 +45,8 @@ public class TicketDAO {
     }
 
     public Ticket getTicket(String vehicleRegNumber) {
+    	//Initialisation des variables remontées dans le bon emplacement. 
+    	//Fermetures mal placées sont placées dans le bloc finally. 
         Connection con = null;
         Ticket ticket = null;
         PreparedStatement ps = null;
@@ -66,7 +70,7 @@ public class TicketDAO {
         }catch (Exception ex){
             logger.error("Error fetching next available slot",ex);
         }finally {
-        	//Quoiqu'il se passe les lignes suivante dans le finally seront executées. 
+        	//Quoiqu'il se passe les lignes suivantes dans le finally seront executées. 
         	dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
