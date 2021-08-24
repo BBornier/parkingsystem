@@ -130,16 +130,17 @@ public class FareCalculatorServiceTest {
     @Test
     public void calculateTicketParkTime() {
     	//ARRANGE
+    	long duration = fareCalculatorService.calculateTicketParkTime(20, 10);
     	//long inHour = ticket.getInTime().getTime();
-    	long inHour = 10;
+    	//long inHour = 10;
     	//long outHour = ticket.getOutTime().getTime();
-    	long outHour = 20;
+    	//long outHour = 20;
     	
-    	//ACT
-    	long duration = outHour - inHour;
+		//ACT
+    	//Optionnel pour ACT 2e ligne.
+    	//long duration2 = duration;
     	
     	//ASSERT
     	assertEquals(duration, 10);
-		//return duration;
     }
 }
