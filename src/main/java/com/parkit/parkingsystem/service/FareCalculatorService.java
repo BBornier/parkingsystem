@@ -2,14 +2,12 @@ package com.parkit.parkingsystem.service;
 
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
-import java.util.Calendar;
 
 public class FareCalculatorService {
 
     public void calculateFare(Ticket ticket){
-        if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
-            throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
-        }
+    	// A tester !
+        
         //Appel de la méthode tout simplement avec son nom. 
         //On stocke les infos de la variable duration avec la méthode calculateTicketParkTime.
         long duration = calculateTicketParkTime(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
@@ -36,6 +34,11 @@ public class FareCalculatorService {
     }
     // Type long avant la méthode :
     public long calculateTicketParkTime(long outHour, long inHour) {
+    	
+    	// réadaptation du if de départ.
+		if( (outHour == 0) || (outHour < inHour) ){
+            throw new IllegalArgumentException("Out time provided is incorrect:"+outHour);
+        }
     	long duration = outHour - inHour;
 		return duration;	
     }
