@@ -10,6 +10,7 @@ public class DataBasePrepareService {
 
     public void clearDataBaseEntries(){
         Connection connection = null;
+        
         try{
             connection = dataBaseTestConfig.getConnection();
 
