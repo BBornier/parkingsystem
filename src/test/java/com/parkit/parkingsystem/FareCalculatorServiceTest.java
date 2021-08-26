@@ -9,7 +9,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Date;
 
@@ -33,6 +34,7 @@ public class FareCalculatorServiceTest {
         Date inTime = new Date();
         inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
         Date outTime = new Date();
+        //heure de sortie de maintenant.
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
 
         ticket.setInTime(inTime);
@@ -141,6 +143,16 @@ public class FareCalculatorServiceTest {
     	//long duration2 = duration;
     	
     	//ASSERT
-    	assertEquals(duration, 10);
+    	// Expected result attendu, actual result réel :
+    	assertEquals(10, duration);
+    }
+    @Test 
+    public void calculateConditionException () {
+    	
+    	//fareCalculatorService.calculateTicketParkTime(10, 20);
+    	
+    	// 1) type / 2) lambda
+    	assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateTicketParkTime(10, 20));
+    	
     }
 }
