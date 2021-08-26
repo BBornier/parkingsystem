@@ -41,8 +41,8 @@ public class InteractiveShell {
             }
         }
     }
-
-    private static void loadMenu(){
+    //Changement d'accès de private à public pour le test :
+    public static void loadMenu(){
         System.out.println("Please select an option. Simply enter the number to choose an action");
         System.out.println("1 New Vehicle Entering - Allocate Parking Space");
         System.out.println("2 Vehicle Exiting - Generate Ticket Price");
