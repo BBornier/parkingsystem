@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class FareCalculatorServiceTest {
@@ -28,7 +30,7 @@ public class FareCalculatorServiceTest {
     private void setUpPerTest() {
         ticket = new Ticket();
     }
-
+    // Correction du test calculateFareCar (tentative) :
     @Test
     public void calculateFareCar(){
         Date inTime = new Date();
@@ -41,7 +43,9 @@ public class FareCalculatorServiceTest {
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket);
-        assertEquals(ticket.getPrice(), Fare.CAR_RATE_PER_HOUR);
+        //System.out.println(ticket.getPrice());
+        assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
+        
     }
 
     @Test
@@ -54,6 +58,7 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
+        //System.out.println(ticket.getPrice());
         fareCalculatorService.calculateFare(ticket);
         assertEquals(ticket.getPrice(), Fare.BIKE_RATE_PER_HOUR);
     }
@@ -95,8 +100,8 @@ public class FareCalculatorServiceTest {
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket);
-        assertEquals((0.75 * Fare.BIKE_RATE_PER_HOUR), ticket.getPrice() );
-        //assertEquals((Fare.BIKE_RATE_PER_HOUR), ticket.getPrice() );
+        //System.out.println(ticket.getPrice());
+        assertEquals((0.75 * Fare.BIKE_RATE_PER_HOUR), ticket.getPrice());
     }
 
     @Test
@@ -109,9 +114,9 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
+        //System.out.println(ticket.getPrice());
         fareCalculatorService.calculateFare(ticket);
         assertEquals( (0.75 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
-        //assertEquals( (Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
     }
 
     @Test
@@ -125,10 +130,11 @@ public class FareCalculatorServiceTest {
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket);
-        assertEquals( (24 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
-       //assertEquals( (Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
+        System.out.println(ticket.getPrice());
+        assertEquals((24 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
+        
     }
-  //Nouveau test pour vérifier le calcul de la durée entre sortie et entrée d'un véhicule.
+    //Nouveau test pour vérifier le calcul de la durée entre sortie et entrée d'un véhicule.
     @Test
     public void calculateTicketParkTime() {
     	//ARRANGE
@@ -146,13 +152,23 @@ public class FareCalculatorServiceTest {
     	// Expected result attendu, actual result réel :
     	assertEquals(10, duration);
     }
+    //Nouveau test sur la levée d'exception :
     @Test 
     public void calculateConditionException () {
     	
     	//fareCalculatorService.calculateTicketParkTime(10, 20);
     	
-    	// 1) type / 2) lambda
+    	// 1) type / 2) lambda à utiliser dans le cas d'un assertThrows :
     	assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateTicketParkTime(10, 20));
     	
     }
+    //Nouveau test sur le switch case :
+    @Test 
+    public void switchFareCalculatorServiceCasesTest() {
+    	
+    	long duration = fareCalculatorService.calculateTicketParkTime(20, 10);
+		assertTrue(duration * Fare.CAR_RATE_PER_HOUR == 15);
+		assertTrue(duration * Fare.BIKE_RATE_PER_HOUR == 10);
+    	
+    }  
 }
