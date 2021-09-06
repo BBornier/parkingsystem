@@ -18,9 +18,8 @@ class ParkingSpotTest {
 	
 	@Test
 	public void testSetParkingType() {
-		Object CAR = null;
-		parking.setParkingType(null);
-		assertEquals(CAR , parking.getParkingType());
+		parking.setParkingType(ParkingType.CAR);
+		assertEquals(ParkingType.CAR, parking.getParkingType());
 	}
 	
 	@Test
