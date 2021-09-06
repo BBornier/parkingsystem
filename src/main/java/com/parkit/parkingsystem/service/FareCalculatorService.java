@@ -6,12 +6,11 @@ import com.parkit.parkingsystem.model.Ticket;
 public class FareCalculatorService {
 
     public void calculateFare(Ticket ticket){
-    	// A tester !
-        
+    	// Problème de calcul ici.
+    	// Méthodes dépréciées. remplacéespar getTime().
         //Appel de la méthode tout simplement avec son nom. 
         //On stocke les infos de la variable duration avec la méthode calculateTicketParkTime.
         long duration = calculateTicketParkTime(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
-        // Méthodes dépréciées. remplacer par Calendar.get ?
         // @SuppressWarnings("deprecation")
 		// long inHour = ticket.getInTime().getTime();
         // @SuppressWarnings("deprecation")
@@ -22,7 +21,7 @@ public class FareCalculatorService {
 
 		switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
-                ticket.setPrice(duration  * Fare.CAR_RATE_PER_HOUR);
+                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
                 break;
             }
             case BIKE: {
@@ -30,16 +29,18 @@ public class FareCalculatorService {
                 break;
             }
             default: throw new IllegalArgumentException("Unkown Parking Type");
+          
         }
     }
     // Type long avant la méthode :
     public long calculateTicketParkTime(long outHour, long inHour) {
     	
     	// réadaptation du if de départ.
-		if( (outHour == 0) || (outHour < inHour) ){
+		if( (outHour == 0) || (outHour < inHour) ) {
             throw new IllegalArgumentException("Out time provided is incorrect:"+outHour);
         }
     	long duration = outHour - inHour;
 		return duration;	
+		
     }
 }
