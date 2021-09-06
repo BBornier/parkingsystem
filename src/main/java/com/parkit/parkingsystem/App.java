@@ -14,8 +14,8 @@ public class App {
         logger.info("Initializing Parking System");
         InteractiveShell.loadInterface();
         
-        logger.log(Level.INFO, "Hello World with Log4J 2");
-        logger.log(Level.ERROR, "Houston, we have a problem");
+        logger.log(Level.INFO, "Logs with Log4J2");
+        //logger.log(Level.ERROR, "Houston, we have a problem");
       
         
         logger.trace("Entering application");
