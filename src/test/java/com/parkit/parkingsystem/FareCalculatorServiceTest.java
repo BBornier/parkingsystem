@@ -158,11 +158,9 @@ public class FareCalculatorServiceTest {
     	
     	//fareCalculatorService.calculateTicketParkTime(10, 20);
     	
-<<<<<<< Updated upstream
-    	// 1) type / 2) lambda à utiliser dans le cas d'un assertThrows :
-=======
+
     	// 1) type / 2) -> = lambda
->>>>>>> Stashed changes
+
     	assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateTicketParkTime(10, 20));
     	
     }
