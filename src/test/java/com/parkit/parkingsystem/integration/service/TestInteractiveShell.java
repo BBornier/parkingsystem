@@ -13,16 +13,15 @@ class TestInteractiveShell {
 	
 	@Test
 	void testAppIsWellInitialized() {
-		// ARRANGE
 		InteractiveShell interactiveShell = new InteractiveShell();
-		InteractiveShell.loadInterface();
+		//InteractiveShell.loadInterface();
 		
 	}
 	
 	@Test
 	void testMenuIsLoadingWell() {
 		InteractiveShell interactiveShell = new InteractiveShell();
-		InteractiveShell.loadMenu();
+		//InteractiveShell.loadMenu();
 	}
 
 }
