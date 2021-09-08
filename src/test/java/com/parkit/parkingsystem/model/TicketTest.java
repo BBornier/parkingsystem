@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 class TicketTest {
 	
 	Ticket ticket = new Ticket();
+	Date a = new Date(0);
 
 	@Test
 	public void testTicketGetRightId() {
@@ -36,14 +37,14 @@ class TicketTest {
 	
 	@Test
 	public void testTicketGetRightInTime() {
-		ticket.setInTime(null);
-		assertEquals(null, ticket.getInTime());
+		ticket.setInTime(a);
+		assertEquals(a, ticket.getInTime());
 	}
 	
 	@Test
 	public void testTicketGetRightOutTime() {
-		ticket.getOutTime();
-		assertEquals(null, ticket.getOutTime());
+		ticket.setOutTime(a);
+		assertEquals(a, ticket.getOutTime());
 	}
 
 }
