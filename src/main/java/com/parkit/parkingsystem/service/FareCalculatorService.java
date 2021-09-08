@@ -7,7 +7,7 @@ public class FareCalculatorService {
 
     public void calculateFare(Ticket ticket){
     	// Problème de calcul ici.
-    	// Méthodes dépréciées. remplacéespar getTime().
+    	// Méthodes dépréciées. remplacées par getTime().
         //Appel de la méthode tout simplement avec son nom. 
         //On stocke les infos de la variable duration avec la méthode calculateTicketParkTime.
         long duration = calculateTicketParkTime(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
@@ -21,11 +21,11 @@ public class FareCalculatorService {
 
 		switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
-                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
+                ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR)/60/60/1000);       
                 break;
             }
             case BIKE: {
-                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
+                ticket.setPrice((duration * Fare.BIKE_RATE_PER_HOUR)/60/60/1000);               
                 break;
             }
             default: throw new IllegalArgumentException("Unkown Parking Type");
@@ -43,4 +43,11 @@ public class FareCalculatorService {
 		return duration;	
 		
     }
+    // Ajout d'une méthode de calcul de 2 chiffres après la décimale :
+    //public void onlyTwoDecimalNumbers() {
+    	//FareCalculatorService fareCalc = new FareCalculatorService();
+    	//DecimalFormat df = new DecimalFormat("#.##");
+    	//fareCalc.calculateFare(Ticket);
+        //df.format(fareCalc);
+    //}
 }
