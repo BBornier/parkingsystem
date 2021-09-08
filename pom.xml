@@ -58,14 +58,14 @@
 		<dependency>
 			<groupId>org.jacoco</groupId>
 			<artifactId>jacoco-maven-plugin</artifactId>
-			<!-- Changement de version pour Jacoco / 0.8.5 -->
+			<!-- Changement de version pour Jacoco / 0.8.5 / 3.0.0 -->
 			<version>0.8.7</version>
 			<type>maven-plugin</type>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-assembly-plugin</artifactId>
-			<version>3.0.0</version>
+			<version>3.3.0</version>
 		</dependency>
 	</dependencies>
 
