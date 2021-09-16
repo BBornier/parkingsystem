@@ -21,7 +21,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
         		//Correction du test en indiquant le bon mdp et le bon fuseau horaire :
-                "jdbc:mysql://localhost:3306/prod?serverTimezone=UTC","root","X8AHNdCXq&n6e&ugRkM+dTN2#H+!uJ!Fa9U85*G3We*7nn4DU*=+Dt4csgF!h?dX!XaMg-8CM5V5MV-pTEG7Q-#-Nns6D?N8bw^Frn+CxR-FjAbzL+Fty6=R%mT26gYXu7rN-$$8BGD&&b?^rm7Tje7HWDW8W=5CYyjY_ZWcDcgzVCymAj^KwgK^FHfb^w2BV96^h8kpsK!T=!eCt5U$Hxc=wTGrS@8yqjm@ngX&WE#QsYBj@26wdwsjLwAp&&@*");
+                "jdbc:mysql://localhost:3306/prod?serverTimezone=Europe/Paris","root","X8AHNdCXq&n6e&ugRkM+dTN2#H+!uJ!Fa9U85*G3We*7nn4DU*=+Dt4csgF!h?dX!XaMg-8CM5V5MV-pTEG7Q-#-Nns6D?N8bw^Frn+CxR-FjAbzL+Fty6=R%mT26gYXu7rN-$$8BGD&&b?^rm7Tje7HWDW8W=5CYyjY_ZWcDcgzVCymAj^KwgK^FHfb^w2BV96^h8kpsK!T=!eCt5U$Hxc=wTGrS@8yqjm@ngX&WE#QsYBj@26wdwsjLwAp&&@*");
         	
     }
     
