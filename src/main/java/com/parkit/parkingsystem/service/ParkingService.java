@@ -19,7 +19,7 @@ public class ParkingService {
 
     private InputReaderUtil inputReaderUtil;
     private ParkingSpotDAO parkingSpotDAO;
-    private  TicketDAO ticketDAO;
+    private TicketDAO ticketDAO;
 
     public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO){
         this.inputReaderUtil = inputReaderUtil;
@@ -34,24 +34,35 @@ public class ParkingService {
                 String vehicleRegNumber = getVehichleRegNumber();
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
-
+                
                 Date inTime = new Date();
-                Ticket ticket = new Ticket();
-                //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
-                //ticket.setId(ticketID);
-                ticket.setParkingSpot(parkingSpot);
-                ticket.setVehicleRegNumber(vehicleRegNumber);
-                ticket.setPrice(0);
-                ticket.setInTime(inTime);
-                ticket.setOutTime(null);
+                Ticket ticket = new Ticket();         
+                // Appel de la méthode de paramètres pour le ticket.
+                setParametersInTicket(ticket, parkingSpot, vehicleRegNumber, inTime);
                 ticketDAO.saveTicket(ticket);
-                System.out.println("Generated Ticket and saved in DB");
-                System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
-                System.out.println("Recorded in-time for vehicle number:"+vehicleRegNumber+" is:"+inTime);
+                // Appel de la méthode void.
+                setDisplayInformations(parkingSpot, vehicleRegNumber, inTime);
+                
             }
         }catch(Exception e){
             logger.error("Unable to process incoming vehicle",e);
         }
+    }
+    // Factorisation des paramètres appelés par l'objet ticket de la méthode processIncomingVehicule().
+    public Ticket setParametersInTicket(Ticket ticket, ParkingSpot parkingSpot, String vehicleRegNumber, Date inTime) throws Exception {
+    	ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber(vehicleRegNumber);
+        ticket.setPrice(0);
+        ticket.setInTime(inTime);
+        ticket.setOutTime(null);
+        return ticket;
+    	
+    }
+    // Factorisation de l'affichage dans la méthode processIncomingVehicule().
+    public void setDisplayInformations(ParkingSpot parkingSpot, String vehicleRegNumber, Date inTime) throws Exception {
+    	System.out.println("Generated Ticket and saved in DB");
+        System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
+        System.out.println("Recorded in-time for vehicle number:"+vehicleRegNumber+" is:"+inTime);
     }
 
     private String getVehichleRegNumber() throws Exception {
