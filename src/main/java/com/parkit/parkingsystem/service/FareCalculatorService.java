@@ -1,7 +1,5 @@
 package com.parkit.parkingsystem.service;
 
-import java.text.DecimalFormat;
-
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
