@@ -1,5 +1,7 @@
 package com.parkit.parkingsystem.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 
 public class Ticket {
@@ -9,17 +11,7 @@ public class Ticket {
     private double price;
     private Date inTime;
     private Date outTime;
-    
-    // Ajout du constructeur pour la classe Ticket  ?
-    //public Ticket (int id, ParkingSpot parkingSpot, String vehicleRegNumber, double price, Date inTime, Date ouTime) {
-    	//this.id = id;
-    	//this.parkingSpot = parkingSpot;
-    	//this.vehicleRegNumber = vehicleRegNumber;
-    	//this.price = price;
-    	//this.inTime = inTime;
-    	//this.outTime = ouTime;
-    //}
-
+  
     public int getId() {
         return id;
     }
@@ -45,6 +37,9 @@ public class Ticket {
     }
 
     public double getPrice() {
+    	BigDecimal bd = new BigDecimal(price);
+        bd = bd.setScale(3, RoundingMode.HALF_UP);
+        price = bd.doubleValue();
         return price;
     }
 

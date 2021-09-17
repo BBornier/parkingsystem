@@ -45,11 +45,5 @@ public class FareCalculatorService {
 		return duration;	
 		
     }
-    	// Ajout d'une méthode de calcul de 2 chiffres seulement après la décimale :
-    public void onlyTwoDecimalNumbers(long duration, Fare fare) {
-    	Ticket ticket = new Ticket();
-    	DecimalFormat df = new DecimalFormat("0.00");
-    	df.format(ticket);
     	
-    }
 }
