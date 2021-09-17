@@ -66,6 +66,10 @@ public class ParkingDataBaseIT {
 		assertEquals(ticketBdd, ticket);
 		
 		// vérifier que la table Parking est bien mise à jour sur les disponibilités de places de parking : 
+		
+		
+		
+		
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
     }
 
