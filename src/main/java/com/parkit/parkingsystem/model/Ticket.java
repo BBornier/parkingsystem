@@ -37,7 +37,7 @@ public class Ticket {
     }
 
     public double getPrice() {
-    	DecimalFormat df = new DecimalFormat("###,###");
+    	DecimalFormat df = new DecimalFormat("###,##");
     	df.setRoundingMode(RoundingMode.HALF_UP);
     	df.format(price);
         return price;
