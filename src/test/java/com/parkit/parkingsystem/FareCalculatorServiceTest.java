@@ -30,20 +30,17 @@ public class FareCalculatorServiceTest {
     private void setUpPerTest() {
         ticket = new Ticket();
     }
-    // Correction du test calculateFareCar (tentative) :
     @Test
     public void calculateFareCar(){
         Date inTime = new Date();
         inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
         Date outTime = new Date();
-        //heure de sortie de maintenant.
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket);
-        //System.out.println(ticket.getPrice());
         assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
         
     }
@@ -58,7 +55,6 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        //System.out.println(ticket.getPrice());
         fareCalculatorService.calculateFare(ticket);
         assertEquals(ticket.getPrice(), Fare.BIKE_RATE_PER_HOUR);
     }
@@ -100,7 +96,6 @@ public class FareCalculatorServiceTest {
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket);
-        //System.out.println(ticket.getPrice());
         assertEquals((0.75 * Fare.BIKE_RATE_PER_HOUR), ticket.getPrice());
     }
 
@@ -114,7 +109,6 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        //System.out.println(ticket.getPrice());
         fareCalculatorService.calculateFare(ticket);
         assertEquals( (0.75 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
     }
@@ -137,30 +131,16 @@ public class FareCalculatorServiceTest {
     //Nouveau test pour vérifier le calcul de la durée entre sortie et entrée d'un véhicule.
     @Test
     public void calculateTicketParkTime() {
-    	//ARRANGE
+    	
     	long duration = fareCalculatorService.calculateTicketParkTime(20, 10);
-    	//long inHour = ticket.getInTime().getTime();
-    	//long inHour = 10;
-    	//long outHour = ticket.getOutTime().getTime();
-    	//long outHour = 20;
-    	
-		//ACT
-    	//Optionnel pour ACT 2e ligne.
-    	//long duration2 = duration;
-    	
-    	//ASSERT
-    	// Expected result attendu, actual result réel :
     	assertEquals(10, duration);
+    	
+    //Nouveau test sur la levée d'exception du type de parking	
+    	
     }
-    //Nouveau test sur la levée d'exception :
+    //Nouveau test sur la levée d'exception sur le calcul de l'heure.
     @Test 
     public void calculateConditionException () {
-    	
-    	//fareCalculatorService.calculateTicketParkTime(10, 20);
-    	
-
-    	// 1) type / 2) -> = lambda
-
     	assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateTicketParkTime(10, 20));
     	
     }
