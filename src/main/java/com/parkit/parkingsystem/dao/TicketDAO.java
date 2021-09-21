@@ -35,6 +35,9 @@ public class TicketDAO {
             ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));
             ps.setTimestamp(5, (ticket.getOutTime() == null)?null: (new Timestamp(ticket.getOutTime().getTime())) );
             return ps.execute();
+          //Multi Catch. Aller du plus précis au moins précis. Argument plus précis que simplement Exception tout court.
+        }catch (IllegalArgumentException e){
+        	logger.error("Error fetching something", e);  
         }catch (Exception ex){
             logger.error("Error fetching next available slot",ex);
         }finally {
