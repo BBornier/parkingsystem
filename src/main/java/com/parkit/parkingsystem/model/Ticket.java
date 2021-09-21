@@ -1,7 +1,7 @@
 package com.parkit.parkingsystem.model;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.Date;
 
 public class Ticket {
@@ -37,9 +37,9 @@ public class Ticket {
     }
 
     public double getPrice() {
-    	DecimalFormat df = new DecimalFormat("###,##");
-    	df.setRoundingMode(RoundingMode.HALF_UP);
-    	df.format(price);
+    	 BigDecimal bd = new BigDecimal(price);
+    	 bd = bd.setScale(2, RoundingMode.HALF_DOWN);
+    	 price = bd.doubleValue();
         return price;
     }
 
