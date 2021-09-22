@@ -15,6 +15,7 @@ import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.ParkingSpot;
+import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 
@@ -42,15 +43,27 @@ public class ParkingIncomingVehiculeServiceTest {
     } catch (Exception e) {
         e.printStackTrace();
         throw  new RuntimeException("Failed to set up test mock objects");
-    	}
+    }
 	
 }
-		
+	//Nouveau BeforeEach et Tests pour l'entrée du véhicule dans un parking.
+	//Test de place de parking mise à jour.
 	@Test
-	void testProcessIncomingVehicle() {
+	void testAParkingSpotIsUpdated_WhileAVehicleIsIncoming() {
 		// Appel de la méthode à tester :
 		parkingService.processIncomingVehicle();
 		verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
 	}
-
+	//
+	@Test
+	void testIfASlotWillBeAvailable_WhileAVehicleIsIncoming() {
+		parkingService.processIncomingVehicle();
+		verify(parkingSpotDAO, Mockito.times(1)).getNextAvailableSlot(any(ParkingType.class));
+	}
+	//test de ticket sauvegardé en BDD.
+	@Test
+	void testIfATicketIsWellSaved_WhileAVehicleIsIncoming() {
+		parkingService.processIncomingVehicle();
+		verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
+	}
 }

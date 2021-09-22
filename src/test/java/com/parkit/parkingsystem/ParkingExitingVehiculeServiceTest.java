@@ -19,7 +19,7 @@ import java.util.Date;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ParkingServiceTest {
+public class ParkingExitingVehiculeServiceTest {
 
     private static ParkingService parkingService;
 
@@ -53,9 +53,21 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void processExitingVehicleTest(){
+    public void updateParking_WhileAVehicleIsExiting_FromParkingTest(){
         parkingService.processExitingVehicle();
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+    }
+    
+    @Test
+    public void verifyIfTicketDAOGetATicket_WhileAVehicleIsExiting_FromParkingTest() {
+    	parkingService.processExitingVehicle();
+    	verify(ticketDAO, Mockito.times(1)).getTicket(anyString());
+    }
+    
+    @Test 
+    public void verifyIfATicketIsUpdated_WhileAVehicleIsExiting_FromParkingTest() {
+    	parkingService.processExitingVehicle();
+    	verify(ticketDAO, Mockito.times(1)).updateTicket(any(Ticket.class));
     }
 
 }
