@@ -117,9 +117,9 @@
 						correctement -->
 					<testFailureIgnore>true</testFailureIgnore>
 					<!--Laisser les IT inclus !!! -->
-					<!--<excludes>
+					<excludes>
 						<exclude>**/*IT.java</exclude>
-					</excludes>-->
+					</excludes>
 				</configuration>
 				<executions>
 					<execution>
@@ -130,12 +130,12 @@
 						<phase>integration-test</phase>
 						<!--Laisser les IT inclus !!! -->
 						<configuration>
-							<!--  <excludes>
+							<excludes>
 								<exclude>none</exclude>
 							</excludes>
 							<includes>
 								<include>**/*IT.java</include>
-							</includes>-->
+							</includes>
 						</configuration>
 					</execution>
 				</executions>
