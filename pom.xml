@@ -116,9 +116,10 @@
 					<!--Eviter d'afficher les failures qui empêchaient le Build de se faire 
 						correctement -->
 					<testFailureIgnore>true</testFailureIgnore>
-					<excludes>
+					<!--Laisser les IT inclus !!! -->
+					<!--<excludes>
 						<exclude>**/*IT.java</exclude>
-					</excludes>
+					</excludes>-->
 				</configuration>
 				<executions>
 					<execution>
@@ -127,13 +128,14 @@
 							<goal>test</goal>
 						</goals>
 						<phase>integration-test</phase>
+						<!--Laisser les IT inclus !!! -->
 						<configuration>
-							<excludes>
+							<!--  <excludes>
 								<exclude>none</exclude>
 							</excludes>
 							<includes>
 								<include>**/*IT.java</include>
-							</includes>
+							</includes>-->
 						</configuration>
 					</execution>
 				</executions>
