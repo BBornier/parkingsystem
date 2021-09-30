@@ -58,20 +58,21 @@ public class ParkingIncomingVehiculeServiceTest {
 
 	// Test sur la disponibilité de la prochaine place de parking, pour les
 	// voitrures.
+	// Invocation du mock ou moins 1 fois.
 	@Test
 	void testIfASlotWillBeAvailable_WhileACarIsIncomingTest() {
 		parkingService.processIncomingVehicle();
-		verify(parkingSpotDAO, Mockito.times(1)).getNextAvailableSlot(any(ParkingType.class));
+		verify(parkingSpotDAO, Mockito.atLeast(1)).getNextAvailableSlot(ParkingType.CAR);
 	}
 
-	/*
-	 * // Test sur la disponibilité de la prochaine place de parking, pour les //
-	 * motos.
-	 * 
-	 * @Test void testIfASlotWillBeAvailable_WhileABikeIsIncoming() {
-	 * parkingService.processIncomingVehicle(); verify(parkingSpotDAO,
-	 * Mockito.times(1)).getNextAvailableSlot(ParkingType.BIKE); }
-	 */
+	// Test sur la disponibilité de la prochaine place de parking, pour les motos.
+	// Invocation du Mock, maximum 2x.
+
+	@Test
+	void testIfASlotWillBeAvailable_WhileABikeIsIncoming() {
+		parkingService.processIncomingVehicle();
+		verify(parkingSpotDAO, Mockito.atMost(2)).getNextAvailableSlot(ParkingType.BIKE);
+	}
 
 	// Test de ticket sauvegardé en BDD.
 	@Test
