@@ -98,4 +98,9 @@ public class TicketDAO {
         }
         return false;
     }
+    
+    // Simplification de la méthode saveTicket()
+    
+    
+    
 }

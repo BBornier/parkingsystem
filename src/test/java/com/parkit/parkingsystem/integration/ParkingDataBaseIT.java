@@ -61,9 +61,14 @@ public class ParkingDataBaseIT {
         parkingService.processIncomingVehicle();
         // vérifier qu'un ticket est bien enregistré en BDD :
         TicketDAO ticketBdd = new TicketDAO();
-        Ticket ticket = null;
-		ticketBdd.saveTicket(ticket);
-		assertEquals(ticketBdd, ticket);
+        //GIVEN
+        when(ticketBdd.saveTicket(null)).thenReturn(true);
+        //WHEN
+        
+        
+        //THEN
+        
+        
 		
 		// vérifier que la table Parking est bien mise à jour sur les disponibilités de places de parking : 
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
@@ -79,7 +84,7 @@ public class ParkingDataBaseIT {
         
         
         
-        // Vérifier que le temps de sortir est bien noté et inscrit en BDD :
+        // Vérifier que le temps de sortie est bien noté et inscrit en BDD :
         
         
         

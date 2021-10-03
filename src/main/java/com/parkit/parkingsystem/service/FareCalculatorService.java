@@ -20,11 +20,13 @@ public class FareCalculatorService {
         // TODO: Some tests are failing here. Need to check if this logic is correct
         // long duration = outHour - inHour;
 
-		switch (ticket.getParkingSpot().getParkingType()){ // Attribue un type de place de parking (voiture ou vélo)
-            case CAR: { // Dans le cas d'une voiture qui se gare
-            	//Prend la durée de stationnement, multiplie par le prix du stationnement à l'heure (ici 1.5),
-            	//puis la durée en millisecondes est convertit en minutes pour avoir le bon résultat.
-                ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR)/(60*60*1000)); 
+		switch (ticket.getParkingSpot().getParkingType()){ 
+            case CAR: { 
+            	// Essai de mettre le résultat en 2 decimales après la virgule.
+            	ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR)/(60*60*1000)); 
+                //double price = ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR)/(60*60*1000)); 
+                //DecimalFormat df = new DecimalFormat("#.##");         
+            	//df.format(price);
                 break;
             }
             case BIKE: { // Dans le cas d'un vélo qui se gare
@@ -35,6 +37,8 @@ public class FareCalculatorService {
           
         }
     }
+    	// Simplification et décomposition de la méthode calculateFare.
+    	// Ici on décompose en calculant à part la différence entre l'heure de sortie et l'heure d'arrivée.
     public long calculateTicketParkTime(long outHour, long inHour) {
     	
     	// réadaptation du if de départ.
@@ -48,7 +52,7 @@ public class FareCalculatorService {
     	// Ajout d'une méthode de calcul de 2 chiffres seulement après la décimale :
     public void onlyTwoDecimalNumbers(long duration, Fare fare) {
     	Ticket ticket = new Ticket();
-    	DecimalFormat df = new DecimalFormat("0.00");
+    	DecimalFormat df = new DecimalFormat("00.00");
     	df.format(ticket);
     	
     }
