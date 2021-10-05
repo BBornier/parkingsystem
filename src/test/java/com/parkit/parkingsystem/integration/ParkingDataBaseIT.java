@@ -22,6 +22,7 @@ import com.parkit.parkingsystem.integration.config.DataBaseConfigTest;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
+import com.parkit.parkingsystem.service.FareCalculatorService;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 
@@ -32,6 +33,7 @@ public class ParkingDataBaseIT {
 	private static ParkingSpotDAO parkingSpotDAO;
 	private static TicketDAO ticketDAO;
 	private static DataBasePrepareService dataBasePrepareService;
+	private static FareCalculatorService fareCalculatorService; // mock Farecalc. NEW !
 
 	@Mock
 	private static InputReaderUtil inputReaderUtil;
@@ -43,12 +45,11 @@ public class ParkingDataBaseIT {
 		ticketDAO = new TicketDAO();
 		ticketDAO.dataBaseConfig = dataBaseTestConfig;
 		dataBasePrepareService = new DataBasePrepareService();
+		fareCalculatorService = new FareCalculatorService(); // ajout FareCalc. NEW !
 	}
 
 	@BeforeEach
 	private void setUpPerTest() throws Exception {
-		// Unnecessary stubbing detected.
-		// org.mockito.exceptions.misusing.UnnecessaryStubbingException.
 		when(inputReaderUtil.readSelection()).thenReturn(1);
 		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 		dataBasePrepareService.clearDataBaseEntries();
@@ -103,33 +104,41 @@ public class ParkingDataBaseIT {
 		// with availability. DONE !
 	}
 
-	// Vérifier que le prix est bien généré et inscrit en BDD.
+	// Vérifier que le prix et le temps de sortie sont bien générés et inscrits en
+	// BDD. Fonctionne en BDD (cf WorkBench) avec imatriculation BA-788-QQ !
 	@Test
 	public void testParkingPriceIsWellGeneratedAndRegisteredInBdd_WhileA_CarIsExitingIT() {
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
 		Ticket ticket = new Ticket();
 		Date inTime = new Date();
+		inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+		Date outTime = new Date();
+		outTime.setTime(System.currentTimeMillis() + (60 * 60 * 1000));
 		ParkingSpot pkSpot = new ParkingSpot(2, ParkingType.CAR, false);
+
 		ticket.setVehicleRegNumber("BA-788-QQ");
 		ticket.setParkingSpot(pkSpot);
 		ticket.setInTime(inTime);
-		ticket.setOutTime(null);
+		ticket.setOutTime(outTime);
+		fareCalculatorService.calculateFare(ticket);
 		try {
 			dataBaseTestConfig.getConnection();
 			ticketDAO.saveTicket(ticket);
-			Ticket ticketPrice = ticketDAO.getTicket("BA-788-QQ");
+			ticket = ticketDAO.getTicket("BA-788-QQ");
 			dataBaseTestConfig.closeConnection(null);
 			dataBaseTestConfig.getConnection();
-			ticketDAO.updateTicket(ticketPrice);
-			assertNotNull(ticketPrice);
+			ticketDAO.updateTicket(ticket);
+			ticket = ticketDAO.getTicket("BA-788-QQ");
+			assertNotNull(ticket.getPrice());
 			parkingService.processExitingVehicle();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	// Vérifier que le temps de sortie est bien noté et inscrit en BDD :
+	// Vérifier que le temps de sortie est bien noté et inscrit en BDD > Test en
+	// cours. Mais test précédent fait le taf.
 	@Test
 	@Disabled
 	public void testOutTimeIsWellGeneratedAndRegisteredInBdd_WhileA_CarIsExitingIT() {
@@ -137,8 +146,9 @@ public class ParkingDataBaseIT {
 		parkingService.processExitingVehicle();
 		Ticket ticket = new Ticket();
 		Date inTime = new Date();
+		Date outTime = new Date();
 		ticket.setInTime(inTime);
-		ticket.setOutTime(null);
+		ticket.setOutTime(outTime);
 		ticket.setPrice(0);
 		try {
 			dataBaseTestConfig.getConnection();
@@ -147,7 +157,7 @@ public class ParkingDataBaseIT {
 		}
 
 		// TODO: check that the fare generated and out time are populated correctly in
-		// the database. DOING !
+		// the database. DONE !
 	}
 
 }
