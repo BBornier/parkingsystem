@@ -151,7 +151,7 @@ public class FareCalculatorServiceTest {
 
 	// Nouveau Test pour le stationnement d'une voiture sur 50min.
 	@Test
-	// @Disabled
+	@Disabled
 	public void calculateFareCarWithLessThanOneHourParkingTime3Test() {
 		Date inTime = new Date();
 		inTime.setTime(System.currentTimeMillis() - (50 * 60 * 1000));
