@@ -11,8 +11,7 @@ public class FareCalculatorService {
 		// Appel de la méthode tout simplement avec son nom.
 		// On stocke les infos de la variable duration avec la méthode
 		// calculateTicketParkTime.
-		long duration = calculateTicketParkTime_And30minFreeParking(ticket.getOutTime().getTime(),
-				ticket.getInTime().getTime());
+		long duration = calculateTicketParkTime(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
 		// @SuppressWarnings("deprecation")
 		// long inHour = ticket.getInTime().getTime();
 		// @SuppressWarnings("deprecation")
@@ -20,34 +19,36 @@ public class FareCalculatorService {
 		// TODO: Some tests are failing here. Need to check if this logic is correct
 		// long duration = outHour - inHour;
 
-		switch (ticket.getParkingSpot().getParkingType()) { // Attribue un type de place de parking (voiture ou vélo)
-		case CAR: { // Dans le cas d'une voiture qui se gare prend la durée de stationnement, 
-			// multiplie par le prix du stationnement à l'heure (ici 1.5),
-			// puis la durée en millisecondes est convertit en minutes pour avoir le bon résultat.
-			ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR) / (60 * 60 * 1000));
-			break;
-		}
-		case BIKE: { // Dans le cas d'un vélo qui se gare
-			ticket.setPrice((duration * Fare.BIKE_RATE_PER_HOUR) / (60 * 60 * 1000));
-			break;
-		}
-		default:
-			throw new IllegalArgumentException("Unkown Parking Type");
+		if (duration <= (30 * 60 * 1000)) {
+			ticket.setPrice(0);
+		} else {
+			switch (ticket.getParkingSpot().getParkingType()) { // Attribue un type de place de parking (voiture ou vélo)
 
+			case CAR: { // Dans le cas d'une voiture qui se gare prend la durée de stationnement, 
+				// multiplie par le prix du stationnement à l'heure (ici 1.5),
+				// puis la durée en millisecondes est convertit en minutes pour avoir le bon résultat.
+				ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR) / (60 * 60 * 1000));
+				break;
+			}
+			case BIKE: { // Dans le cas d'une moto qui se gare
+				ticket.setPrice((duration * Fare.BIKE_RATE_PER_HOUR) / (60 * 60 * 1000));
+				break;
+			}
+			default:
+				throw new IllegalArgumentException("Unkown Parking Type");
+			}
 		}
+
 	}
 
-	public long calculateTicketParkTime_And30minFreeParking(long outHour, long inHour) {
+	public long calculateTicketParkTime(long outHour, long inHour) {
 
 		// réadaptation du if de départ.
 		if ((outHour == 0) || (outHour < inHour)) {
 			throw new IllegalArgumentException("Out time provided is incorrect:" + outHour);
 		}
 		long duration = outHour - inHour;
-		if (duration <= (30 * 60 * 1000) && duration >= 0) {
-			return 0;
-		} else
-			return duration;
+		return duration;
 
 	}
 

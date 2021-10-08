@@ -113,7 +113,7 @@ public class ParkingDataBaseIT {
 		Date inTime = new Date(); // instanciation d'un horaire (celui d'entrée du véhicule).
 		inTime.setTime(System.currentTimeMillis()); // appel de la méthode setTime() pour simuler l'horaire d'arrivée -1h par rapport à l'heure actuelle.
 		Date outTime = new Date(); // instanciation d'un horaire (celui de sortie du véhicule).
-		outTime.setTime(System.currentTimeMillis() + (20 * 60 * 1000)); // appel de la méthode setTime() pour simuler l'horaire de sortie +1h par rapport à l'heure actuelle.
+		outTime.setTime(System.currentTimeMillis() + (90 * 60 * 1000)); // appel de la méthode setTime() pour simuler l'horaire de sortie +1h par rapport à l'heure actuelle.
 		ParkingSpot pkSpot = new ParkingSpot(2, ParkingType.CAR, false); // instanciation d'un objet pkSpot pour attribuer une place de parking au véhicule.
 
 		ticket.setVehicleRegNumber("BA-788-QQ"); // appel de la méthode setVehiculeRegNumber pour attribuer une immat au véhicule qui rentre et l'attribuer à l'objet ticket.
@@ -121,7 +121,7 @@ public class ParkingDataBaseIT {
 		ticket.setInTime(inTime); // appel de la méthode setInTime pour attibuer un horaire d'entrée au véhicule qui rentre et l'attribuer à l'objet ticket.
 		ticket.setOutTime(outTime); // appel de la méthode setOutTime pour attibuer un horaire de sortie au véhicule qui sort et l'attribuer à l'objet ticket.
 		fareCalculatorService.calculateFare(ticket); // utilisation de l'objet fareCalculatorService instancié dans le @ExtendWith et @BeforeAll. 
-													// Il calcule le prix du ticket grâce aux méthodes et paramètres passés au ticket juste avant.
+														// Il calcule le prix du ticket grâce aux méthodes et paramètres passés au ticket juste avant.
 		try {
 			dataBaseTestConfig.getConnection(); // connection à la base de données.
 			ticketDAO.saveTicket(ticket); // sauvegarde du ticket en base de données.

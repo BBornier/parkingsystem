@@ -118,7 +118,6 @@ public class FareCalculatorServiceTest {
 
 	// Nouveau Test pour le stationnement d'une voiture sur 45min.
 	@Test
-	@Disabled
 	public void calculateFareCarWithLessThanOneHourParkingTime1Test() {
 		Date inTime = new Date();
 		inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));
@@ -134,7 +133,6 @@ public class FareCalculatorServiceTest {
 
 	// Nouveau Test pour le stationnement d'une voiture sur 35min.
 	@Test
-	@Disabled
 	public void calculateFareCarWithLessThanOneHourParkingTime2Test() {
 		Date inTime = new Date();
 		inTime.setTime(System.currentTimeMillis() - (35 * 60 * 1000));
@@ -145,12 +143,11 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket);
-		assertEquals((0.58 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
+		assertEquals((7.0 / 12.0 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
 	}
 
 	// Nouveau Test pour le stationnement d'une voiture sur 50min.
 	@Test
-	@Disabled
 	public void calculateFareCarWithLessThanOneHourParkingTime3Test() {
 		Date inTime = new Date();
 		inTime.setTime(System.currentTimeMillis() - (50 * 60 * 1000));
@@ -161,7 +158,8 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket);
-		assertEquals((0.83 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
+
+		assertEquals((5.0 / 6.0 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
 	}
 
 	@Test
@@ -202,8 +200,8 @@ public class FareCalculatorServiceTest {
 	@Test
 	public void calculateTicketParkTimeTest() {
 
-		long duration = fareCalculatorService.calculateTicketParkTime_And30minFreeParking(20, 10);
-		assertEquals(0, duration);
+		long duration = fareCalculatorService.calculateTicketParkTime(20, 10);
+		assertEquals(10, duration);
 	}
 
 	// Calculer 30min de stationnement gratuit.
@@ -220,7 +218,7 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket);
-		assertEquals(0, (0.25 * Fare.CAR_RATE_PER_HOUR));
+		assertEquals(0, (ticket.getPrice()));
 	}
 
 	// Nouveau test sur la levée d'exception du type de parking. A arranger !!
@@ -234,7 +232,7 @@ public class FareCalculatorServiceTest {
 	@Test
 	public void calculateConditionExceptionTest() {
 		assertThrows(IllegalArgumentException.class,
-				() -> fareCalculatorService.calculateTicketParkTime_And30minFreeParking(10, 20));
+				() -> fareCalculatorService.calculateTicketParkTime(10, 20));
 
 	}
 
@@ -243,7 +241,7 @@ public class FareCalculatorServiceTest {
 	@Disabled
 	public void switchFareCalculatorServiceCasesTest() {
 
-		long duration = fareCalculatorService.calculateTicketParkTime_And30minFreeParking(120, 30);
+		long duration = fareCalculatorService.calculateTicketParkTime(120, 30);
 		assertEquals(duration * Fare.CAR_RATE_PER_HOUR, 135);
 		assertEquals(duration * Fare.BIKE_RATE_PER_HOUR, 90);
 
