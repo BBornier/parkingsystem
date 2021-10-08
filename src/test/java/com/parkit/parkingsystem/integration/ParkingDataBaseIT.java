@@ -137,7 +137,6 @@ public class ParkingDataBaseIT {
 
 	// Vérifier que le temps de sortie est bien noté et inscrit en BDD.
 	@Test
-	@Disabled
 	public void testOutTimeIsWellGeneratedAndRegisteredInBdd_WhileA_CarIsExitingIT() {
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle(); 
