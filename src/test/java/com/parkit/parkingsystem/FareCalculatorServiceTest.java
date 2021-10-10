@@ -204,7 +204,7 @@ public class FareCalculatorServiceTest {
 		assertEquals(10, duration);
 	}
 
-	// Calculer 30min de stationnement gratuit.
+	// Calculer 30min de stationnement gratuit. Test OK !
 	@Test
 	public void calculate30MinFreeParkingForAcarTest() {
 
