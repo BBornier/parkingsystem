@@ -18,19 +18,17 @@ public class FareCalculatorService {
 		// long outHour = ticket.getOutTime().getTime();
 		// TODO: Some tests are failing here. Need to check if this logic is correct
 		// long duration = outHour - inHour;
-
+		 
 		if (duration <= (30 * 60 * 1000)) {
 			ticket.setPrice(0);
 		} else {
-			switch (ticket.getParkingSpot().getParkingType()) { // Attribue un type de place de parking (voiture ou vélo)
+			switch (ticket.getParkingSpot().getParkingType()) {
 
-			case CAR: { // Dans le cas d'une voiture qui se gare prend la durée de stationnement, 
-				// multiplie par le prix du stationnement à l'heure (ici 1.5),
-				// puis la durée en millisecondes est convertit en minutes pour avoir le bon résultat.
+			case CAR: { 
 				ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR) / (60 * 60 * 1000));
 				break;
 			}
-			case BIKE: { // Dans le cas d'une moto qui se gare
+			case BIKE: {
 				ticket.setPrice((duration * Fare.BIKE_RATE_PER_HOUR) / (60 * 60 * 1000));
 				break;
 			}
@@ -38,7 +36,6 @@ public class FareCalculatorService {
 				throw new IllegalArgumentException("Unkown Parking Type");
 			}
 		}
-
 	}
 
 	public long calculateTicketParkTime(long outHour, long inHour) {
@@ -51,5 +48,16 @@ public class FareCalculatorService {
 		return duration;
 
 	}
-
+	
+	public void calculate5PercentDiscount(Ticket ticket) {
+		
+		long duration = calculateTicketParkTime(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
+		
+		double nb1 = (duration * Fare.CAR_RATE_PER_HOUR) / (60 * 60 * 1000);
+		double nb2 = (((duration * Fare.CAR_RATE_PER_HOUR) / (60 * 60 * 1000))*5/100);
+		double discount = nb1 - nb2;
+		ticket.setPrice(discount);
+		
+	}
+	
 }

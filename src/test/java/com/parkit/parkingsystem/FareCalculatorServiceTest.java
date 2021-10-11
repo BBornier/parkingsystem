@@ -196,7 +196,7 @@ public class FareCalculatorServiceTest {
 	}
 
 	// Nouveau test pour vérifier le calcul de la durée entre sortie et entrée 
-	// d'un véhicule et si la durée est à 0 si le stationnement est inférieur ou égal à 30min.
+	// d'un véhicule.
 	@Test
 	public void calculateTicketParkTimeTest() {
 
@@ -221,12 +221,6 @@ public class FareCalculatorServiceTest {
 		assertEquals(0, (ticket.getPrice()));
 	}
 
-	// Nouveau test sur la levée d'exception du type de parking. A arranger !!
-	@Test
-	@Disabled
-	public void unknownParkingTypeExceptionTest() {
-		assertThrows(IllegalArgumentException.class, () -> ticket.getParkingSpot().getParkingType());
-	}
 
 	// Nouveau test sur la levée d'exception sur le calcul de l'heure.
 	@Test
@@ -238,7 +232,6 @@ public class FareCalculatorServiceTest {
 
 	// Nouveau test sur le switch case :
 	@Test
-	@Disabled
 	public void switchFareCalculatorServiceCasesTest() {
 
 		long duration = fareCalculatorService.calculateTicketParkTime(120, 30);

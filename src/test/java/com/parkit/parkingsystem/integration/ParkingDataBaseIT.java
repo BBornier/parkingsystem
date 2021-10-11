@@ -1,5 +1,6 @@
 package com.parkit.parkingsystem.integration;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
@@ -44,7 +45,7 @@ public class ParkingDataBaseIT {
 		ticketDAO = new TicketDAO();
 		ticketDAO.dataBaseConfig = dataBaseTestConfig;
 		dataBasePrepareService = new DataBasePrepareService();
-		fareCalculatorService = new FareCalculatorService(); // ajout FareCalc. NEW !
+		fareCalculatorService = new FareCalculatorService();
 	}
 
 	@BeforeEach
@@ -103,33 +104,28 @@ public class ParkingDataBaseIT {
 		// with availability. DONE !
 	}
 
-	// Vérifier que le prix et le temps de sortie sont bien générés et inscrits en
-	// BDD. Fonctionne en BDD (cf WorkBench) avec imatriculation BA-788-QQ !
+	// Vérifier que le prix est bien généré et inscrits en BDD. 
+	// Fonctionne en BDD (cf WorkBench) avec immatriculation BA-788-QQ !
 	@Test
 	public void testParkingPriceIsWellGeneratedAndRegisteredInBdd_WhileA_CarIsExitingIT() {
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-		parkingService.processIncomingVehicle(); // Appel de la méthode gérant l'arrivée d'un véhicule.
-		Ticket ticket = new Ticket(); // instanciation d'un ticket.
-		Date inTime = new Date(); // instanciation d'un horaire (celui d'entrée du véhicule).
-		inTime.setTime(System.currentTimeMillis()); // appel de la méthode setTime() pour simuler l'horaire d'arrivée -1h par rapport à l'heure actuelle.
-		Date outTime = new Date(); // instanciation d'un horaire (celui de sortie du véhicule).
-		outTime.setTime(System.currentTimeMillis() + (90 * 60 * 1000)); // appel de la méthode setTime() pour simuler l'horaire de sortie +1h par rapport à l'heure actuelle.
-		ParkingSpot pkSpot = new ParkingSpot(2, ParkingType.CAR, false); // instanciation d'un objet pkSpot pour attribuer une place de parking au véhicule.
+		parkingService.processIncomingVehicle();
+		Ticket ticket = new Ticket(); 
+		Date inTime = new Date(); 
+		inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000)); 
+		Date outTime = new Date(); 
+		outTime.setTime(System.currentTimeMillis() + (60 * 60 * 1000)); 
+		ParkingSpot pkSpot = new ParkingSpot(2, ParkingType.CAR, false); 
 
-		ticket.setVehicleRegNumber("BA-788-QQ"); // appel de la méthode setVehiculeRegNumber pour attribuer une immat au véhicule qui rentre et l'attribuer à l'objet ticket.
-		ticket.setParkingSpot(pkSpot); // appel de la méthode setParkingSport pour attibuer une place de stationnement au véhicule qui rentre et l'attribuer à l'objet ticket.
-		ticket.setInTime(inTime); // appel de la méthode setInTime pour attibuer un horaire d'entrée au véhicule qui rentre et l'attribuer à l'objet ticket.
-		ticket.setOutTime(outTime); // appel de la méthode setOutTime pour attibuer un horaire de sortie au véhicule qui sort et l'attribuer à l'objet ticket.
-		fareCalculatorService.calculateFare(ticket); // utilisation de l'objet fareCalculatorService instancié dans le @ExtendWith et @BeforeAll. 
-														// Il calcule le prix du ticket grâce aux méthodes et paramètres passés au ticket juste avant.
+		ticket.setVehicleRegNumber("BA-788-QQ"); 
+		ticket.setParkingSpot(pkSpot); 
+		ticket.setInTime(inTime); 
+		ticket.setOutTime(outTime); 
+		fareCalculatorService.calculateFare(ticket); 
 		try {
-			dataBaseTestConfig.getConnection(); // connection à la base de données.
-			ticketDAO.saveTicket(ticket); // sauvegarde du ticket en base de données.
-			ticket = ticketDAO.getTicket("BA-788-QQ"); // stockage du ticket en base de données avec tous ses paramètres.
-			ticketDAO.updateTicket(ticket); // mise à jour du ticket avec ses nouvelles informations et notamment le calcul du temps passé et donc du prix.
-			ticket = ticketDAO.getTicket("BA-788-QQ"); // stockage de la mise à jour dans le ticket.
-			assertNotNull(ticket.getPrice()); // assertion du tests pour savoir si oui ou non le prix du ticket est null ou pas (vérification que le prix est bien enregistré en BDD).
-			parkingService.processExitingVehicle(); // appel de la méthode gérant la sortie du véhicule et la génération en console du tarif à payer.
+			dataBaseTestConfig.getConnection(); 
+			ticketDAO.saveTicket(ticket); 
+			assertNotNull(ticket.getPrice());
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
@@ -151,14 +147,9 @@ public class ParkingDataBaseIT {
 		ticket.setParkingSpot(pkSpot);
 		ticket.setInTime(inTime);
 		ticket.setOutTime(outTime);
-		fareCalculatorService.calculateFare(ticket);
 		try {
 			dataBaseTestConfig.getConnection();
 			ticketDAO.saveTicket(ticket);
-			ticket = ticketDAO.getTicket("BA-788-QQ");
-			ticketDAO.updateTicket(ticket);
-			ticket = ticketDAO.getTicket("BA-788-QQ");
-			parkingService.processExitingVehicle();
 			assertNotNull(ticket.getOutTime());
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -167,5 +158,61 @@ public class ParkingDataBaseIT {
 
 	// TODO: check that the fare generated and out time are populated correctly in
 	// the database. DONE !
+	
+	// 5% appliqués si le véhicule est déjà connu/revient une 2e, 3e, 4e... fois
+	@Test
+	public void testIfAcarIsKnown_5PercentDiscountIsAppliedIT() {
+		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+		parkingService.processIncomingVehicle();
+		Ticket ticket = new Ticket();
+		Date inTime = new Date();
+		inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+		Date outTime = new Date();
+		outTime.setTime(System.currentTimeMillis() + (120 * 60 * 1000));
+		ParkingSpot pkSpot = new ParkingSpot(1, ParkingType.CAR, false);
+		
+		ticket.setVehicleRegNumber("BA-788-QQ");
+		ticket.setParkingSpot(pkSpot);
+		ticket.setInTime(inTime);
+		ticket.setOutTime(outTime);
+		fareCalculatorService.calculateFare(ticket);
+	
+		try {
+			dataBaseTestConfig.getConnection();
+			parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
+			parkingSpotDAO.updateParking(pkSpot);
+			ticketDAO.saveTicket(ticket);
+			parkingService.processExitingVehicle();
+			assertEquals(4.5, ticket.getPrice());
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		ParkingService parkingService2 = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+		parkingService2.processIncomingVehicle();
+		Ticket ticket2 = new Ticket();
+		Date inTime2 = new Date();
+		inTime2.setTime(System.currentTimeMillis() + (120 * 60 * 1000));
+		Date outTime2 = new Date();
+		outTime2.setTime(System.currentTimeMillis() + (240 * 60 * 1000));
+		ParkingSpot pkSpot2 = new ParkingSpot(2, ParkingType.CAR, false);
+		
+		ticket2.setVehicleRegNumber("BA-788-QQ");
+		ticket2.setParkingSpot(pkSpot2);
+		ticket2.setInTime(inTime2);
+		ticket2.setOutTime(outTime2);
+		fareCalculatorService.calculate5PercentDiscount(ticket2);
+	
+		try {
+			dataBaseTestConfig.getConnection();
+			parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
+			parkingSpotDAO.updateParking(pkSpot2);
+			ticketDAO.saveTicket(ticket2);
+			assertEquals(2.85, ticket2.getPrice());
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 }
