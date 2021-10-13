@@ -3,7 +3,13 @@ package com.parkit.parkingsystem;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.Locale;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -112,13 +118,12 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket);
-		// 0,75 ? 3/4 d'heure / 3:4 = 0,75 ou 45/60 = 0,75.
 		assertEquals((0.75 * Fare.BIKE_RATE_PER_HOUR), ticket.getPrice());
 	}
 
 	// Nouveau Test pour le stationnement d'une voiture sur 45min.
 	@Test
-	public void calculateFareCarWithLessThanOneHourParkingTime1Test() {
+	public void calculateFareCarWithLessThanOneHourParkingTime1Test() throws ParseException {
 		Date inTime = new Date();
 		inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));
 		Date outTime = new Date();
@@ -128,7 +133,11 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket);
-		assertEquals((0.75 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
+		double price = (0.75 * Fare.CAR_RATE_PER_HOUR);
+		BigDecimal bd = new BigDecimal(price);
+		bd = bd.setScale(2, RoundingMode.HALF_DOWN);
+		price = bd.doubleValue();
+		assertEquals(price, ticket.getPrice());
 	}
 
 	// Nouveau Test pour le stationnement d'une voiture sur 35min.
@@ -143,7 +152,11 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket);
-		assertEquals((7.0 / 12.0 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
+		double price = (7.0 / 12.0 * Fare.CAR_RATE_PER_HOUR);
+		BigDecimal bd = new BigDecimal(price);
+		bd = bd.setScale(2, RoundingMode.HALF_DOWN);
+		price = bd.doubleValue();
+		assertEquals(price, ticket.getPrice());
 	}
 
 	// Nouveau Test pour le stationnement d'une voiture sur 50min.
