@@ -40,7 +40,7 @@ public class Ticket {
     	 BigDecimal bd = new BigDecimal(price);
     	 bd = bd.setScale(2, RoundingMode.HALF_DOWN);
     	 price = bd.doubleValue();
-        return price;
+    	 return price;
     }
 
     public void setPrice(double price) {
