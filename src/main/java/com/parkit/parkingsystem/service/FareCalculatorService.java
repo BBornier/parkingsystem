@@ -11,7 +11,8 @@ public class FareCalculatorService {
 		// Appel de la méthode tout simplement avec son nom.
 		// On stocke les infos de la variable duration avec la méthode
 		// calculateTicketParkTime.
-		long duration = calculateTicketParkTime(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
+		long duration = calculateTicketParkTime(ticket.getOutTime().getTime(), 
+				ticket.getInTime().getTime());
 		// @SuppressWarnings("deprecation")
 		// long inHour = ticket.getInTime().getTime();
 		// @SuppressWarnings("deprecation")
