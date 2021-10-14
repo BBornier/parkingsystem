@@ -20,6 +20,7 @@ public class TicketDAO {
 
 	public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+	@SuppressWarnings("finally")
 	public boolean saveTicket(Ticket ticket) {
 		// Initialisation des variables remontées dans le bon emplacement.
 		// Fermetures mal placées sont placées dans le bloc finally.
@@ -28,8 +29,6 @@ public class TicketDAO {
 		try {
 			con = dataBaseConfig.getConnection();
 			ps = con.prepareStatement(DBConstants.SAVE_TICKET);
-			// ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
-			// ps.setInt(1,ticket.getId());
 			ps.setInt(1, ticket.getParkingSpot().getId());
 			ps.setString(2, ticket.getVehicleRegNumber());
 			ps.setDouble(3, ticket.getPrice());
@@ -49,6 +48,7 @@ public class TicketDAO {
 		}
 	}
 
+	@SuppressWarnings("finally")
 	public Ticket getTicket(String vehicleRegNumber) {
 		// Initialisation des variables remontées dans le bon emplacement.
 		// Fermetures mal placées sont placées dans le bloc finally.
@@ -59,7 +59,6 @@ public class TicketDAO {
 		try {
 			con = dataBaseConfig.getConnection();
 			ps = con.prepareStatement(DBConstants.GET_TICKET);
-			// ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
 			ps.setString(1, vehicleRegNumber);
 			rs = ps.executeQuery();
 			if (rs.next()) {
