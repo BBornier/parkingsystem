@@ -1,5 +1,7 @@
 package com.parkit.parkingsystem.service;
 
+import java.util.List;
+
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
