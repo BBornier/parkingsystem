@@ -32,18 +32,9 @@ public class Ticket {
 		return vehicleRegNumber;
 	}
 
-<<<<<<< HEAD
 	public void setVehicleRegNumber(String vehicleRegNumber) {
 		this.vehicleRegNumber = vehicleRegNumber;
 	}
-=======
-    public double getPrice() {
-    	 BigDecimal bd = new BigDecimal(price);
-    	 bd = bd.setScale(2, RoundingMode.HALF_DOWN);
-    	 price = bd.doubleValue();
-    	 return price;
-    }
->>>>>>> db42d03a4ba4ea0c5fe04f9ee0bcb27b46488e4d
 
 	public double getPrice() {
 		BigDecimal bd = new BigDecimal(price);

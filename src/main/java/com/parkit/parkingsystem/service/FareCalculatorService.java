@@ -1,8 +1,7 @@
 package com.parkit.parkingsystem.service;
 
-import java.util.List;
-
 import com.parkit.parkingsystem.constants.Fare;
+import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
@@ -13,7 +12,7 @@ public class FareCalculatorService {
 		// Appel de la méthode tout simplement avec son nom.
 		// On stocke les infos de la variable duration avec la méthode
 		// calculateTicketParkTime.
-		long duration = calculateTicketParkTime(ticket.getOutTime().getTime(), 
+		long duration = calculateTicketParkTime(ticket.getOutTime().getTime(),
 				ticket.getInTime().getTime());
 		// @SuppressWarnings("deprecation")
 		// long inHour = ticket.getInTime().getTime();
@@ -21,13 +20,18 @@ public class FareCalculatorService {
 		// long outHour = ticket.getOutTime().getTime();
 		// TODO: Some tests are failing here. Need to check if this logic is correct
 		// long duration = outHour - inHour;
-		 
+
+		TicketDAO ticketDAO = new TicketDAO();
+		double ticketDiscount = calculate5PercentDiscount(ticket);
+
 		if (duration <= (30 * 60 * 1000)) {
 			ticket.setPrice(0);
+		} else if (ticketDAO.getTicket(ticket.getVehicleRegNumber()) != null) {
+			ticket.setPrice(ticketDiscount);
 		} else {
 			switch (ticket.getParkingSpot().getParkingType()) {
 
-			case CAR: { 
+			case CAR: {
 				ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR) / (60 * 60 * 1000));
 				break;
 			}
@@ -51,16 +55,17 @@ public class FareCalculatorService {
 		return duration;
 
 	}
-	
-	public void calculate5PercentDiscount(Ticket ticket) {
-		
+
+	public double calculate5PercentDiscount(Ticket ticket) {
+
 		long duration = calculateTicketParkTime(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
-		
+
 		double nb1 = (duration * Fare.CAR_RATE_PER_HOUR) / (60 * 60 * 1000);
-		double nb2 = (((duration * Fare.CAR_RATE_PER_HOUR) / (60 * 60 * 1000))*5/100);
+		double nb2 = (((duration * Fare.CAR_RATE_PER_HOUR) / (60 * 60 * 1000)) * 5 / 100);
 		double discount = nb1 - nb2;
 		ticket.setPrice(discount);
-		
+		return discount;
+
 	}
-	
+
 }

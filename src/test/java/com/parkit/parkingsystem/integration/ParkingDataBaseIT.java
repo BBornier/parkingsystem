@@ -110,21 +110,21 @@ public class ParkingDataBaseIT {
 	public void testParkingPriceIsWellGeneratedAndRegisteredInBdd_WhileA_CarIsExitingIT() {
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
-		Ticket ticket = new Ticket(); 
-		Date inTime = new Date(); 
-		inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000)); 
-		Date outTime = new Date(); 
-		outTime.setTime(System.currentTimeMillis() + (60 * 60 * 1000)); 
-		ParkingSpot pkSpot = new ParkingSpot(2, ParkingType.CAR, false); 
+		Ticket ticket = new Ticket();
+		Date inTime = new Date();
+		inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+		Date outTime = new Date();
+		outTime.setTime(System.currentTimeMillis() + (60 * 60 * 1000));
+		ParkingSpot pkSpot = new ParkingSpot(2, ParkingType.CAR, false);
 
-		ticket.setVehicleRegNumber("BA-788-QQ"); 
-		ticket.setParkingSpot(pkSpot); 
-		ticket.setInTime(inTime); 
-		ticket.setOutTime(outTime); 
-		fareCalculatorService.calculateFare(ticket); 
+		ticket.setVehicleRegNumber("BA-788-QQ");
+		ticket.setParkingSpot(pkSpot);
+		ticket.setInTime(inTime);
+		ticket.setOutTime(outTime);
+		fareCalculatorService.calculateFare(ticket);
 		try {
-			dataBaseTestConfig.getConnection(); 
-			ticketDAO.saveTicket(ticket); 
+			dataBaseTestConfig.getConnection();
+			ticketDAO.saveTicket(ticket);
 			assertNotNull(ticket.getPrice());
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -158,7 +158,7 @@ public class ParkingDataBaseIT {
 
 	// TODO: check that the fare generated and out time are populated correctly in
 	// the database. DONE !
-	
+
 	// 5% appliqués si le véhicule est déjà connu/revient une 2e, 3e, 4e... fois
 	@Test
 	public void testIfAcarIsKnown_5PercentDiscountIsAppliedIT() {
@@ -170,13 +170,13 @@ public class ParkingDataBaseIT {
 		Date outTime = new Date();
 		outTime.setTime(System.currentTimeMillis() + (120 * 60 * 1000));
 		ParkingSpot pkSpot = new ParkingSpot(1, ParkingType.CAR, false);
-		
+
 		ticket.setVehicleRegNumber("BA-788-QQ");
 		ticket.setParkingSpot(pkSpot);
 		ticket.setInTime(inTime);
 		ticket.setOutTime(outTime);
 		fareCalculatorService.calculateFare(ticket);
-	
+
 		try {
 			dataBaseTestConfig.getConnection();
 			parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
@@ -187,7 +187,7 @@ public class ParkingDataBaseIT {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		ParkingService parkingService2 = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService2.processIncomingVehicle();
 		Ticket ticket2 = new Ticket();
@@ -196,13 +196,13 @@ public class ParkingDataBaseIT {
 		Date outTime2 = new Date();
 		outTime2.setTime(System.currentTimeMillis() + (240 * 60 * 1000));
 		ParkingSpot pkSpot2 = new ParkingSpot(2, ParkingType.CAR, false);
-		
+
 		ticket2.setVehicleRegNumber("BA-788-QQ");
 		ticket2.setParkingSpot(pkSpot2);
 		ticket2.setInTime(inTime2);
 		ticket2.setOutTime(outTime2);
-		fareCalculatorService.calculate5PercentDiscount(ticket2);
-	
+		fareCalculatorService.calculateFare(ticket2);
+
 		try {
 			dataBaseTestConfig.getConnection();
 			parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
@@ -212,7 +212,7 @@ public class ParkingDataBaseIT {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }
