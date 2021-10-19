@@ -47,7 +47,6 @@ public class FareCalculatorService {
 
 	public long calculateTicketParkTime(long outHour, long inHour) {
 
-		// réadaptation du if de départ.
 		if ((outHour == 0) || (outHour < inHour)) {
 			throw new IllegalArgumentException("Out time provided is incorrect:" + outHour);
 		}

@@ -33,7 +33,7 @@ public class ParkingDataBaseIT {
 	private static ParkingSpotDAO parkingSpotDAO;
 	private static TicketDAO ticketDAO;
 	private static DataBasePrepareService dataBasePrepareService;
-	private static FareCalculatorService fareCalculatorService; // mock Farecalc. NEW !
+	private static FareCalculatorService fareCalculatorService; // mock Farecalc.
 
 	@Mock
 	private static InputReaderUtil inputReaderUtil;
@@ -183,7 +183,7 @@ public class ParkingDataBaseIT {
 			parkingSpotDAO.updateParking(pkSpot);
 			ticketDAO.saveTicket(ticket);
 			parkingService.processExitingVehicle();
-			assertEquals(4.5, ticket.getPrice());
+			assertEquals(4.28, ticket.getPrice());
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
