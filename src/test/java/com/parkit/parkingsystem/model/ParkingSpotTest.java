@@ -22,9 +22,10 @@ class ParkingSpotTest {
 		assertEquals(ParkingType.CAR, parking.getParkingType());
 	}
 
-	/*
-	 * @Test public void setParkingAvailableTest() { parking.isAvailable();
-	 * assertEquals(false, parking.isAvailable()); }
-	 */
+	@Test
+	public void setParkingAvailableTest() {
+		parking.isAvailable();
+		assertEquals(false, parking.isAvailable());
+	}
 
 }

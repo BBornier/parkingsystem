@@ -4,6 +4,24 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 
+/**
+ * Ticket is the class where are set all paramaters for a ticket: id, parking
+ * spot, vehicle register number (numberplate), price, in time is hour of the
+ * vehicle incoming, out time is the hour the same vehicle is exiting from the
+ * parking.
+ * 
+ * <p>
+ * In order to get the most precise price, with only two decimals after decimal
+ * point, BigDecimal is used at getPrice method.
+ * 
+ * @see ParkingSpot
+ * @see getPrice
+ *
+ * @author BBornier
+ * 
+ * @version 0.1
+ */
+
 public class Ticket {
 	private int id;
 	private ParkingSpot parkingSpot;

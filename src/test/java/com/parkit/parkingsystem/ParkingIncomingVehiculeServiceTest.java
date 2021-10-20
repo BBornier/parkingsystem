@@ -34,8 +34,6 @@ public class ParkingIncomingVehiculeServiceTest {
 	@BeforeEach
 	private void setUpTroisMockEtBisouTest() {
 		try {
-			// Ne fonctionne pas, pourquoi ??? test ne pase pas avec :'(
-			// when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 			when(inputReaderUtil.readSelection()).thenReturn(1);
 			when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
 
@@ -47,34 +45,32 @@ public class ParkingIncomingVehiculeServiceTest {
 
 	}
 
-	// Nouveau BeforeEach et Tests pour l'entrée du véhicule dans un parking.
-	// Test de place de parking mise à jour.
+	//Nouveau BeforeEach et Tests pour l'entrée du véhicule dans un parking.
+	//Test de place de parking mise à jour.
 	@Test
 	void testAParkingSpotIsUpdated_WhileAVehicleIsIncomingTest() {
-		// Appel de la méthode à tester :
+		//Appel de la méthode à tester :
 		parkingService.processIncomingVehicle();
 		verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
 	}
 
-	// Test sur la disponibilité de la prochaine place de parking, pour les
-	// voitrures.
-	// Invocation du mock ou moins 1 fois.
+	//Test sur la disponibilité de la prochaine place de parking, pour les voitures.
+	//Invocation du mock ou moins 1 fois.
 	@Test
 	void testIfASlotWillBeAvailable_WhileACarIsIncomingTest() {
 		parkingService.processIncomingVehicle();
 		verify(parkingSpotDAO, Mockito.atLeast(1)).getNextAvailableSlot(ParkingType.CAR);
 	}
 
-	// Test sur la disponibilité de la prochaine place de parking, pour les motos.
-	// Invocation du Mock, maximum 2x.
-
+	//Test sur la disponibilité de la prochaine place de parking, pour les motos.
+	//Invocation du Mock, maximum 2x.
 	@Test
 	void testIfASlotWillBeAvailable_WhileABikeIsIncoming() {
 		parkingService.processIncomingVehicle();
 		verify(parkingSpotDAO, Mockito.atMost(2)).getNextAvailableSlot(ParkingType.BIKE);
 	}
 
-	// Test de ticket sauvegardé en BDD.
+	//Test de ticket sauvegardé en BDD.
 	@Test
 	void testIfATicketIsWellSaved_WhileAVehicleIsIncomingTest() {
 		parkingService.processIncomingVehicle();
