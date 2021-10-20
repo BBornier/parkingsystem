@@ -4,22 +4,39 @@ import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.Ticket;
 
+/**
+ * FareCalculatorService is the class where the application calculate the price
+ * of ticket when a vehicle is exiting.
+ *
+ * @author BBornier
+ * 
+ * @version 0.1
+ */
 public class FareCalculatorService {
-
+	/**
+	 * Caculate ticket fare according to the staying duration of vehicules. It
+	 * calculate 30minutes free and 5% discont for already known vehicles (with
+	 * their numberplate).
+	 * 
+	 * <p>
+	 * Some times methods were deprecated and have been replaced by getTime()
+	 * method.
+	 * <p>
+	 * 
+	 * @see getTime
+	 * @see Fare
+	 * @see TicketDAO
+	 * @see Ticket
+	 * @see calculateTicketParkTime
+	 * @see calculate5PercentDiscount
+	 * 
+	 * @param ticket is an instance of Ticket.
+	 * 
+	 * @throws IllegalArgumentException if parking type is unknown.
+	 * 
+	 */
 	public void calculateFare(Ticket ticket) {
-		// Problème de calcul ici.
-		// Méthodes dépréciées. remplacées par getTime().
-		// Appel de la méthode tout simplement avec son nom.
-		// On stocke les infos de la variable duration avec la méthode
-		// calculateTicketParkTime.
-		long duration = calculateTicketParkTime(ticket.getOutTime().getTime(),
-				ticket.getInTime().getTime());
-		// @SuppressWarnings("deprecation")
-		// long inHour = ticket.getInTime().getTime();
-		// @SuppressWarnings("deprecation")
-		// long outHour = ticket.getOutTime().getTime();
-		// TODO: Some tests are failing here. Need to check if this logic is correct
-		// long duration = outHour - inHour;
+		long duration = calculateTicketParkTime(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
 
 		TicketDAO ticketDAO = new TicketDAO();
 		double ticketDiscount = calculate5PercentDiscount(ticket);
@@ -45,6 +62,20 @@ public class FareCalculatorService {
 		}
 	}
 
+	/**
+	 * Caculate duration of a vehicle staying time. It calculate out hour minus in
+	 * time hour.
+	 * 
+	 * @see calculateFare
+	 * 
+	 * @param outHour, inHour. That is hour of vehicle exiting and vehicle incoming
+	 *                 time.
+	 * 
+	 * @return duration result.
+	 * 
+	 * @throws IllegalArgumentException if inHour is superior to outHour.
+	 * 
+	 */
 	public long calculateTicketParkTime(long outHour, long inHour) {
 
 		if ((outHour == 0) || (outHour < inHour)) {
@@ -55,6 +86,21 @@ public class FareCalculatorService {
 
 	}
 
+	/**
+	 * Caculate 5% discount for known custumers.
+	 * 
+	 * @see getTime
+	 * @see Fare
+	 * @see TicketDAO
+	 * @see Ticket
+	 * 
+	 * @param ticket is an instance of Ticket.
+	 * 
+	 * @return duration result.
+	 * 
+	 * @throws IllegalArgumentException if inHour is superior to outHour.
+	 * 
+	 */
 	public double calculate5PercentDiscount(Ticket ticket) {
 
 		long duration = calculateTicketParkTime(ticket.getOutTime().getTime(), ticket.getInTime().getTime());

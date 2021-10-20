@@ -136,7 +136,6 @@ public class FareCalculatorServiceTest {
 		assertEquals(price, ticket.getPrice());
 	}
 
-	// Nouveau Test pour le stationnement d'une voiture sur 35min.
 	@Test
 	public void calculateFareCarWithLessThanOneHourParkingTime2Test() {
 		Date inTime = new Date();
@@ -155,7 +154,6 @@ public class FareCalculatorServiceTest {
 		assertEquals(price, ticket.getPrice());
 	}
 
-	// Nouveau Test pour le stationnement d'une voiture sur 50min.
 	@Test
 	public void calculateFareCarWithLessThanOneHourParkingTime3Test() {
 		Date inTime = new Date();
@@ -174,7 +172,6 @@ public class FareCalculatorServiceTest {
 	@Test
 	public void calculateFareCarWithMoreThanADayParkingTimeTest() {
 		Date inTime = new Date();
-		// 24 hours parking time should give 24 * parking fare per hour
 		inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
 		Date outTime = new Date();
 		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
@@ -187,11 +184,9 @@ public class FareCalculatorServiceTest {
 
 	}
 
-	// Nouveau Test pour le stationnement d'une moto sur 48h.
 	@Test
 	public void calculateFareBikeWithMoreThanADayParkingTimeTest() {
 		Date inTime = new Date();
-		// 48 hours parking time should give 24 * parking fare per hour
 		inTime.setTime(System.currentTimeMillis() - (48 * 60 * 60 * 1000));
 		Date outTime = new Date();
 		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
@@ -204,16 +199,13 @@ public class FareCalculatorServiceTest {
 
 	}
 
-	// Nouveau test pour vérifier le calcul de la durée entre sortie et entrée 
-	// d'un véhicule.
 	@Test
-	public void calculateTicketParkTimeTest() {
+	public void calculateTicketParkTimeTestBetweenOutTimeAndInTime() {
 
 		long duration = fareCalculatorService.calculateTicketParkTime(20, 10);
 		assertEquals(10, duration);
 	}
 
-	// Calculer 30min de stationnement gratuit. Test OK !
 	@Test
 	public void calculate30MinFreeParkingForAcarTest() {
 
@@ -230,15 +222,13 @@ public class FareCalculatorServiceTest {
 		assertEquals(0, (ticket.getPrice()));
 	}
 
-	// Nouveau test sur la levée d'exception sur le calcul de l'heure.
 	@Test
-	public void calculateConditionExceptionTest() {
+	public void calculateConditionExceptionTestAboutHour() {
 		assertThrows(IllegalArgumentException.class,
 				() -> fareCalculatorService.calculateTicketParkTime(10, 20));
 
 	}
 
-	// Nouveau test sur le switch case :
 	@Test
 	public void switchFareCalculatorServiceCasesTest() {
 

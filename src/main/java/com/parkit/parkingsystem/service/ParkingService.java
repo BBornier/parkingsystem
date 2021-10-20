@@ -34,15 +34,11 @@ public class ParkingService {
 			if (parkingSpot != null && parkingSpot.getId() > 0) {
 				String vehicleRegNumber = getVehicleRegNumber();
 				parkingSpot.setAvailable(false);
-				parkingSpotDAO.updateParking(parkingSpot);// allot this parking space and mark it's availability as
-															// false
-
+				parkingSpotDAO.updateParking(parkingSpot);
 				Date inTime = new Date();
 				Ticket ticket = new Ticket();
-				// Appel de la méthode de paramètres pour le ticket.
 				setParametersInTicket(ticket, parkingSpot, vehicleRegNumber, inTime);
 				ticketDAO.saveTicket(ticket);
-				// Appel de la méthode void.
 				setDisplayInformations(parkingSpot, vehicleRegNumber, inTime);
 
 			}
@@ -51,8 +47,6 @@ public class ParkingService {
 		}
 	}
 
-	// Factorisation des paramètres appelés par l'objet ticket de la méthode
-	// processIncomingVehicule().
 	public Ticket setParametersInTicket(Ticket ticket, ParkingSpot parkingSpot, String vehicleRegNumber, Date inTime)
 			throws Exception {
 		ticket.setParkingSpot(parkingSpot);
@@ -64,7 +58,6 @@ public class ParkingService {
 
 	}
 
-	// Factorisation de l'affichage dans la méthode processIncomingVehicule().
 	public void setDisplayInformations(ParkingSpot parkingSpot, String vehicleRegNumber, Date inTime) throws Exception {
 		System.out.println("Generated Ticket and saved in DB");
 		System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
