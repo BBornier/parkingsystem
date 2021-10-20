@@ -182,7 +182,6 @@ public class ParkingDataBaseIT {
 			parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
 			parkingSpotDAO.updateParking(pkSpot);
 			ticketDAO.saveTicket(ticket);
-			parkingService.processExitingVehicle();
 			assertEquals(4.5, ticket.getPrice());
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();

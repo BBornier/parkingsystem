@@ -150,7 +150,6 @@ public class TicketDAO {
 	 * @See Ticket
 	 * @see PreparedStatement
 	 * @see ResultSet
-	 * @see ParkingType
 	 * @see Connection
 	 * @see DBConstants
 	 * @see DataBaseConfig
