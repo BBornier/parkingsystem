@@ -54,7 +54,6 @@ public class TicketDAO {
 	 * @return the execution of SQL statments.
 	 * 
 	 */
-	@SuppressWarnings("finally")
 	public boolean saveTicket(Ticket ticket) {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -74,8 +73,8 @@ public class TicketDAO {
 		} finally {
 			dataBaseConfig.closePreparedStatement(ps);
 			dataBaseConfig.closeConnection(con);
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -104,7 +103,6 @@ public class TicketDAO {
 	 * @return the ticket with all its informations.
 	 * 
 	 */
-	@SuppressWarnings("finally")
 	public Ticket getTicket(String vehicleRegNumber) {
 		Connection con = null;
 		Ticket ticket = null;
@@ -131,8 +129,8 @@ public class TicketDAO {
 			dataBaseConfig.closeResultSet(rs);
 			dataBaseConfig.closePreparedStatement(ps);
 			dataBaseConfig.closeConnection(con);
-			return ticket;
 		}
+		return ticket;
 	}
 
 	/**

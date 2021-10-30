@@ -24,6 +24,7 @@ public class DataBasePrepareService {
 			e.printStackTrace();
 		} finally {
 			dataBaseTestConfig.closeConnection(connection);
+
 		}
 	}
 

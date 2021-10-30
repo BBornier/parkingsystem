@@ -32,7 +32,7 @@ public class ParkingIncomingVehiculeServiceTest {
 	private static TicketDAO ticketDAO;
 
 	@BeforeEach
-	private void setUpTroisMockEtBisouTest() {
+	private void setUpSeveralMockTest() {
 		try {
 			when(inputReaderUtil.readSelection()).thenReturn(1);
 			when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
