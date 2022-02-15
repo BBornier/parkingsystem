@@ -48,7 +48,7 @@ public class App {
 			logger.error("Didn't do it");
 		}
 
-		logger.trace("Existing application");
+		logger.trace("Exiting application");
 
 	}
 
